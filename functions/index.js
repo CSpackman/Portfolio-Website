@@ -1,11 +1,19 @@
 const functions = require('firebase-functions');
 const admin = require('firebase-admin');
+
 admin.initializeApp()
 const express = require('express');
 const app = express();
 const cors = require('cors');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcrypt');
 const initizalize = require('./passportConfig');
+const cookieParser = require('cookie-parser');
+const fileUpload = require('express-fileupload');
+app.use(fileUpload());
+app.use(cookieParser());
 const db = admin.firestore()
+
 function checkPassword(password, passwordToCheck, callback) {
     bcrypt.compare(password, passwordToCheck, function (err,same) {
         if(err){
@@ -20,31 +28,98 @@ var corsOptions = {
 }
 app.use(cors(corsOptions));
 
-async function getData(){
-  const cityRef = db.collection('cities').doc('SF');
-const doc = await cityRef.get();
+
+
+async function  genUser(){
+  const users=[];
+      try{
+          const hashedPassword =  await bcrypt.hash("password", 10);
+          users.push({
+              username: "admin",
+              password: hashedPassword
+          }) 
+      }catch{
+          console.log("error")
+      }
+      //console.log(users);
+      //var users_data = JSON.stringify(users);
+      //fs.writeFile('data.json',users_data,'utf8',function(){
+      //})
+  }
+  genUser();
+
+
+
+async function getData(collection,document){
+  const cityRef = db.collection(collection).doc(document);
+  const doc = await cityRef.get();
 if (!doc.exists) {
   console.log('No such document!');
 } else {
-  console.log('Document data:', doc.data());
+  return await doc.data();
 }
 }
 
-app.get('/test', function(req, res){
-  getData();
-  res.send("worked")
+
+
+app.post('/authenticate', async function(req, res){
+    const secret="secret"
+    const { username, password } = req.body;
+    var passwordToCheck = await getData("users","admin");
+    passwordToCheck=passwordToCheck.password;
+    checkPassword(password, passwordToCheck, function (err,same) {  
+        if(err){
+            res.status(500)
+              .json({
+              error: 'Internal error please try again'
+            });
+        }else if(!same){
+            res.status(401)
+              .json({
+              error: 'Incorrect email or password'
+            });
+        }else{
+          const payload = { username };
+          const token = jwt.sign(payload, secret, {
+            expiresIn: '1h'
+          });
+          res.cookie('token', token, { httpsOnly: true }).sendStatus(200);
+      }
+    });
+  });
+  app.post('/upload/skills', async function (req, res) {
+      const skills = req.body.mesg
+      if(skills===null){
+        return res.status(500).send({ msg: "file is not found" })
+      }else{
+          await db.collection("publicData").doc("home").set({
+            skills: skills
+          });
+          }
+      });
+app.post('/upload/resume', (req, res) => {
+  console.log(req.files)
+  if(req.files.foo===null){
+    return res.status(500).send({ msg: "file is not found" })
+  }else{
+    const resume = req.files.foo;
+    console.log(resume)
+  }
+});
+app.get('/skills', async function(req, res){
+  res.send((await getData("publicData","home")).skills);
 })
+app.get('/resume', (req, res) => {
+
+    //res.sendFile('uploads/Myresume.pdf', { root: __dirname });
+});
+
 app.get('/home', function(req, res) {
     res.send('Welcome!');
   });
 
 app.get('/checkToken', initizalize, function(req, res) {
   res.sendStatus(200);
-  });
-app.get('/skills', function (req, res) {
-  //let rawData = fs.readFileSync('./uploads/data.json');
-  //let parsedData = JSON.parse(rawData)
-  res.send("test2");  
   });
 
 

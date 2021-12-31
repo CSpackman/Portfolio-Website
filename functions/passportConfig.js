@@ -6,7 +6,6 @@ const secret = "secret"
 
 function initizalize(req, res, next){
     const token =req.cookies.token;
-    console.log(req.cookies.token);
     if(!token){
        res.status(401).send('Unauthorized') 
     }else{
