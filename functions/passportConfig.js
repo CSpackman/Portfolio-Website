@@ -1,7 +1,6 @@
 const jwt = require('jsonwebtoken');
 
 
-
 const secret = "secret"
 
 function initizalize(req, res, next){

@@ -141,7 +141,7 @@ export default class Home extends React.Component {
      this.backgroundAnimation();
       window.addEventListener('resize', this.handleResize, false)
      
-      fetch('http://localhost:5001/connorspackman-49d00/us-central1/app/skills')
+      fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/skills')
             .then(res => res.text())
             .then(res => this.setState({skills_Messege: res}));
     }

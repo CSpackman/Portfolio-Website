@@ -4,14 +4,19 @@ const admin = require('firebase-admin');
 admin.initializeApp()
 const express = require('express');
 const app = express();
+
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+
 const initizalize = require('./passportConfig');
-const cookieParser = require('cookie-parser');
-const fileUpload = require('express-fileupload');
-app.use(fileUpload());
+const bodyParser = require('body-parser')
+app.use(bodyParser.json())
+
+
+const cookieParser = require("cookie-parser");
 app.use(cookieParser());
+
 const db = admin.firestore()
 
 function checkPassword(password, passwordToCheck, callback) {
@@ -24,7 +29,8 @@ function checkPassword(password, passwordToCheck, callback) {
     })
 }
 var corsOptions = {
-  orgin: "http://localhost:3000/",
+  origin: "http://localhost:3000",
+  credentials: true,
 }
 app.use(cors(corsOptions));
 
@@ -118,7 +124,7 @@ app.get('/home', function(req, res) {
     res.send('Welcome!');
   });
 
-app.get('/checkToken', initizalize, function(req, res) {
+app.get('/checkToken',initizalize, function(req, res) {
   res.sendStatus(200);
   });
 

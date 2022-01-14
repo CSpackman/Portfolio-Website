@@ -26,7 +26,7 @@ export default class Admin extends React.Component {
 
     componentDidMount() {
       //GET message from server using fetch api
-        fetch('http://localhost:5001/connorspackman-49d00/us-central1/app/skills')
+        fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/skills')
             .then(res => res.text())
             .then(res => this.setState({skills_Messege: res}));
     }
@@ -37,7 +37,7 @@ export default class Admin extends React.Component {
         formData.append('file', this.state.file)
         formData.append("name", this.state.fileName);
     try{
-        fetch('http://localhost:5001/connorspackman-49d00/us-central1/app/upload/resume', {
+        fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/upload/resume', {
             method: 'POST',
             body: formData,
         }
@@ -53,7 +53,7 @@ export default class Admin extends React.Component {
     try{
         const data = JSON.stringify({"mesg":this.state.skills_Messege});
         console.log(data)
-        fetch('http://localhost:5001/connorspackman-49d00/us-central1/app/upload/skills', {
+        fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/upload/skills', {
             method: 'POST',
             body: data,
             headers:{

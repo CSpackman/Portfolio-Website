@@ -22,11 +22,12 @@ import { withRouter } from 'react-router-dom';
 
   
   onSubmit = () => {
-    fetch('/authenticate', {
+    fetch('http://localhost:5001/connorspackman-49d00/us-central1/app/authenticate', {
       method: 'POST',
       body: JSON.stringify(this.state),
+      credentials: 'include',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       }
     })
     .then(res => {
