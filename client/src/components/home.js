@@ -18,6 +18,8 @@ export default class Home extends React.Component {
       //Set default message
       this.state = {
         skills_Messege: "loading...",
+        fist_Messege: "loading...",
+        second_Messege: "loading...",
         camera: new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000),
         renderer: new THREE.WebGLRenderer(),
       }
@@ -144,6 +146,12 @@ export default class Home extends React.Component {
       fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/skills')
             .then(res => res.text())
             .then(res => this.setState({skills_Messege: res}));
+      fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/first')
+          .then(res => res.text())
+          .then(res => this.setState({first_Messege: res}));
+      fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/second')
+        .then(res => res.text())
+        .then(res => this.setState({second_Messege: res}));
     }
     handleResize = () => {
     this.state.camera.aspect = window.innerWidth / window.innerHeight
@@ -168,18 +176,18 @@ export default class Home extends React.Component {
           </section>
           <section className="left">
           <h2>About Me</h2>
-          <p>The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</p>
+          <p>{this.state.first_Messege}</p>
           
           </section>
           <section className="right">
           <h2>About this Website</h2>
-          <p>The World Wide Fund for Nature (WWF) is an international organization working on issues regarding the conservation, research and restoration of the environment, formerly named the World Wildlife Fund. WWF was founded in 1961.</p>
+          <p>{this.state.second_Messege}</p>
           </section>
          
           <section className="left">
           <h2>Skills</h2>
           <p>{this.state.skills_Messege}</p>
-          <a href="/resume" >
+          <a href="https://firebasestorage.googleapis.com/v0/b/connorspackman-49d00.appspot.com/o/Myresume.pdf?alt=media&token=735e8bf2-0dff-4314-8530-8c9ba17ec2d7" >
           <p>Click Me</p>
           </a>
           </section>

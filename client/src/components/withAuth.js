@@ -10,13 +10,8 @@ export default function WithAuth(ComponentToProtect) {
       };
     }
     componentDidMount() {
-      fetch('http://localhost:5001/connorspackman-49d00/us-central1/app/checkToken',{
-        credentials: "include",
-        // headers: {
-        //   'Access-Control-Allow-Origin':'http://localhost:5001/connorspackman-49d00/us-central1/app',
-        //   'origin': '*',
-        //   'Access-Control-Allow-Credentials': 'true'
-        // }
+      fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/checkToken',{
+        credentials: 'include',
       })
         .then(res => {
           if (res.status === 200) {

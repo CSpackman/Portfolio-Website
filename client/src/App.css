@@ -29,7 +29,7 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
 
   font-family: var(--homePageFont);
-  color: #feda4a;
+
 }
 
 
@@ -43,8 +43,8 @@ section {
 }
 
 .main p{
-  color: white;
-  font-weight: 500;
+  color: rgb(255, 255, 255);
+  font-weight: 600;
 }
 
 .left {
@@ -69,10 +69,9 @@ section {
   height: 400px;
   width:400px;
   border-radius: 50%;
-  border:3px dotted #BBC2CC;
+  border:3px dotted #ffffff;
 }
 .center h1{
-  font-weight: 100;
   font-weight: 600;
 }
 

@@ -37,7 +37,7 @@ export default class Admin extends React.Component {
         formData.append('file', this.state.file)
         formData.append("name", this.state.fileName);
     try{
-        fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/upload/resume', {
+        fetch('https://firebasestorage.googleapis.com/v0/b/connorspackman-49d00.appspot.com/o/Myresume.pdf?alt=media&token=735e8bf2-0dff-4314-8530-8c9ba17ec2d7', {
             method: 'POST',
             body: formData,
         }

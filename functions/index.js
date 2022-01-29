@@ -17,6 +17,8 @@ app.use(bodyParser.json())
 const cookieParser = require("cookie-parser");
 app.use(cookieParser());
 
+
+
 const db = admin.firestore()
 
 function checkPassword(password, passwordToCheck, callback) {
@@ -29,7 +31,7 @@ function checkPassword(password, passwordToCheck, callback) {
     })
 }
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", "https://connorspackman.com","https://connorspackman-49d00.web.app"],
   credentials: true,
 }
 app.use(cors(corsOptions));
@@ -75,11 +77,13 @@ app.post('/authenticate', async function(req, res){
     passwordToCheck=passwordToCheck.password;
     checkPassword(password, passwordToCheck, function (err,same) {  
         if(err){
+          console.log("Internal error")
             res.status(500)
               .json({
               error: 'Internal error please try again'
             });
         }else if(!same){
+          console.log("Wrong Email")
             res.status(401)
               .json({
               error: 'Incorrect email or password'
@@ -88,8 +92,10 @@ app.post('/authenticate', async function(req, res){
           const payload = { username };
           const token = jwt.sign(payload, secret, {
             expiresIn: '1h'
+
           });
-          res.cookie('token', token, { httpsOnly: true }).sendStatus(200);
+          res.setHeader('Cache-Control', 'private');
+          res.cookie('__session', token, { httpsOnly: true }).sendStatus(200);
       }
     });
   });
@@ -114,6 +120,12 @@ app.post('/upload/resume', (req, res) => {
 });
 app.get('/skills', async function(req, res){
   res.send((await getData("publicData","home")).skills);
+})
+app.get('/first', async function(req, res){
+  res.send((await getData("publicData","home")).first);
+})
+app.get('/second', async function(req, res){
+  res.send((await getData("publicData","home")).second);
 })
 app.get('/resume', (req, res) => {
 
