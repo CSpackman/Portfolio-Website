@@ -185,10 +185,10 @@ export default class Home extends React.Component {
           </section>
          
           <section className="left">
-          <h2>Skills</h2>
+          <h2>Qualifications</h2>
           <p>{this.state.skills_Messege}</p>
           <a href="https://firebasestorage.googleapis.com/v0/b/connorspackman-49d00.appspot.com/o/Myresume.pdf?alt=media&token=735e8bf2-0dff-4314-8530-8c9ba17ec2d7" >
-          <p>Click Me</p>
+          <p className ="resume">Resume Link</p>
           </a>
           </section>
 
