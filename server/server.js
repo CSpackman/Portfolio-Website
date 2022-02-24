@@ -23,7 +23,7 @@ app.use(cors({
   origin: 'http://localhost:3000'
 }));
 
-
+//Hi
 const users=[]
 
 async function  genUser(){
