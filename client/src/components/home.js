@@ -103,13 +103,6 @@ export default class Home extends React.Component {
 
         this.mount.appendChild( renderer.domElement );
       
-    
-    
-    
-
-
-      
-
 
       for(let i=0; i<400; i++){
          this.addStar(scene);

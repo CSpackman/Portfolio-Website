@@ -110,7 +110,7 @@ app.post('/upload/resume', (req, res) => {
     resume.name = "My_RESUME.pdf";
     resume.mv('./uploads/'+resume.name)
     res.send({msg: "file uploaded"})
-    }
+    }//test
   });
 app.post('/upload/skills', function (req, res) {
   const skills = req.body.mesg

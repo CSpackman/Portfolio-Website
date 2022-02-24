@@ -19,7 +19,7 @@ function initizalize(req, res, next){
                 next();
             }
             
-        });
+        });//Test
     }
     
 } 
