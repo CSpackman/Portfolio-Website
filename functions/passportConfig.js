@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const secret = "secret"
 
 function initizalize(req, res, next){
-    const token =req.cookies.__session;
+    const token =req.cookies.session;
     if(!token){
         console.log("Token Not Found")
        res.status(401).send('Token not found') 

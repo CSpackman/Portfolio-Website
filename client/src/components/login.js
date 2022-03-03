@@ -22,7 +22,7 @@ import { withRouter } from 'react-router-dom';
 
   
   onSubmit = () => {
-    fetch('http://localhost:5001/connorspackman-49d00/us-central1/app/authenticate', {
+    fetch('https://us-central1-connorspackman-49d00.cloudfunctions.net/app/authenticate', {
       method: 'POST',
       body: JSON.stringify(this.state),
       credentials: 'include',

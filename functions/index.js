@@ -90,12 +90,14 @@ app.post('/authenticate', async function(req, res){
             });
         }else{
           const payload = { username };
+          const expiresIn = 60 * 60 * 24 * 5 * 1000;
+          const options = { maxAge: expiresIn, httpOnly: true, secure: true, path: "/"};
           const token = jwt.sign(payload, secret, {
             expiresIn: '1h'
 
           });
           res.setHeader('Cache-Control', 'private');
-          res.cookie('__session', token, { httpsOnly: true }).sendStatus(200);
+          res.cookie('__session', token, options).sendStatus(200);
       }
     });
   });
